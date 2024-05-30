@@ -25,15 +25,14 @@ def crop_ocr(crop):
     text2 = ocr.image_to_string(blur)
     return text2
 
-net = cv2.dnn.readNetFromDarknet('config/yolov4-container.cfg', 'weights/yolov4-container_last.weights')
+net = cv2.dnn.readNetFromDarknet('config/yolov4-container.cfg', 'weights/yolov4-container_3000.weights')
 net.setPreferableBackend(cv2.dnn.DNN_BACKEND_CUDA)
 net.setPreferableTarget(cv2.dnn.DNN_TARGET_CUDA_FP16)
 
 model = cv2.dnn_DetectionModel(net)
 model.setInputParams(size=(416, 416), scale=1/255, swapRB=True)
 
-cap = cv2.VideoCapture('movie/video_0001.avi')
-img = cv2.imread('image_0010.jpg')
+cap = cv2.VideoCapture('movie/video_0010.avi')
 
 while True:
     ret, frame = cap.read()
@@ -43,33 +42,15 @@ while True:
     classes, scores, boxes = model.detect(frame, Conf_threshold, NMS_threshold)
     for (classid, score, box) in zip(classes, scores, boxes):
         color = COLORS[int(classid) % len(COLORS)]
-        #print(box)
         crop_img = frame[box[1]:box[1] + box[3], box[0]:box[0]+box[2]]
         ocr_text = crop_ocr(crop_img)
-        #print('ocr',ocr_text)
         cv2.rectangle(frame, box, color, 1)
-        #label = ocr_text
         
         cv2.putText(frame, ocr_text, (box[0], box[1]-10),
                    cv2.FONT_HERSHEY_COMPLEX, 0.3, color, 1)
-    #endingTime = time.time() - starting_time
-    #fps = frame_counter/endingTime
-    # print(fps)
-    #cv2.putText(frame, f'FPS: {fps}', (20, 50),
-    #           cv2.FONT_HERSHEY_COMPLEX, 0.7, (0, 255, 0), 2)
     cv2.imshow('frame', frame)
     key = cv2.waitKey(1)
     if key == ord('q'):
         break
         
-'''classes, scores, boxes = model.detect(img, Conf_threshold, NMS_threshold)
-for (classid, score, box) in zip(classes, scores, boxes):
-    color = COLORS[int(classid) % len(COLORS)]
-    #label = "%f" % (score)
-    crop_img = img[box[1]:box[1] + box[3], box[0]:box[0]+box[2]]
-    #cv2.imshow('img', crop_img)
-    ocr_text = crop_ocr(crop_img)
-    cv2.rectangle(img, box, color, 1)
-    cv2.waitKey(1000)'''
-#cap.release()
 cv2.destroyAllWindows()
