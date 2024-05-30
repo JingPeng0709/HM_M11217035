@@ -1,0 +1,6 @@
+訓練:train.py
+模型:ssd_model.pth
+測試:test_img.py、test_vid.py、OCR.py
+輸出:output_screenshot(test_img的輸出)、processed_videos(物件偵測)、ocr_results(OCR.py的輸出)
+環境:MLtest.yaml
+OCR使用tesseract
