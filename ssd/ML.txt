@@ -1,0 +1,6 @@
+訓練:train.py
+模型:ssd_model.pth
+測試:test_img.py、test_vid.py、OCR.py
+輸出:output_screenshot(test_img的輸出)、processed_videos(物件偵測)、ocr_results(OCR.py的輸出)
+環境:MLtest.yaml
+OCR使用tesseract，基本上物件偵測還行(processed_videos)，但無法正確辨識文字所以採用YOLO架構。指標就沒弄了，反正一坨:)
