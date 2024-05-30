@@ -1,1 +1,6 @@
+資料集前處理 : trainingPrepare.py
+辨識程式 : detection.py
+
+yolo訓練環境使用https://github.com/AlexeyAB/darknet進行編譯
+
 result video : https://drive.google.com/file/d/1_D8AJySezVOzPd_VaEKjUqQfmYKzFwI1/view?usp=sharing
